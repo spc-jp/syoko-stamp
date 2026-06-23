@@ -6,6 +6,7 @@
 <title>証拠番号スタンプくん｜PDF自動押印ツール</title>
 <link rel="icon" type="image/png" href="https://spc-jp.github.io/syoko-stamp/favicon.png">
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -543,9 +544,11 @@ function b64ToUint8Array(b64) {
 async function stampPage(page, pdfDoc, stampText) {
   const { width, height } = page.getSize();
 
+  // fontkitを登録してカスタムフォントを有効化
+  pdfDoc.registerFontkit(fontkit);
   // 日本語フォント埋め込み
   const fontBytes = b64ToUint8Array(STAMP_FONT_B64);
-  const font = await pdfDoc.embedFont(fontBytes, { subset: false });
+  const font = await pdfDoc.embedFont(fontBytes);
 
   // 縦書き風に1文字ずつ描画
   const chars = Array.from(stampText); // 例: ['甲','第','1','号','証']
