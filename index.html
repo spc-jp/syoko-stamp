@@ -18,7 +18,6 @@
   --radius:10px;--shadow:0 2px 12px rgba(26,53,96,0.10);--shadow-lg:0 6px 28px rgba(26,53,96,0.16);
 }
 body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-
 header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);flex-wrap:wrap;}
 .header-icon{width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
 .header-text h1{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;letter-spacing:0.04em;line-height:1.2;}
@@ -26,79 +25,79 @@ header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
 .header-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .secure-badge{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 10px;font-size:11px;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:4px;white-space:nowrap;}
 .hdr-btn{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);border-radius:8px;color:white;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.18s;white-space:nowrap;}
-.hdr-btn:hover{background:rgba(255,255,255,0.28);border-color:rgba(255,255,255,0.6);}
+.hdr-btn:hover{background:rgba(255,255,255,0.28);}
 
+/* モーダル */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--white);border-radius:14px;box-shadow:0 12px 48px rgba(26,53,96,0.28);max-width:560px;width:100%;max-height:90vh;overflow-y:auto;animation:modalIn 0.22s ease;}
+.modal{background:var(--white);border-radius:14px;box-shadow:0 12px 48px rgba(26,53,96,0.28);max-width:580px;width:100%;max-height:90vh;overflow-y:auto;animation:modalIn 0.22s ease;}
 @keyframes modalIn{from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);}}
 .modal-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:white;padding:18px 22px;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:space-between;}
-.modal-header h2{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;}
-.modal-close{background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
+.modal-header h2{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;}
+.modal-close{background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{background:rgba(255,255,255,0.3);}
 .modal-body{padding:22px;}
-
-.demo-section-title{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:0.05em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.demo-section-title::before{content:'';display:block;width:3px;height:14px;background:var(--gold);border-radius:2px;}
-.demo-btn-row{display:flex;gap:10px;margin-bottom:20px;}
-.demo-btn{flex:1;padding:12px;border:none;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:6px;}
-.demo-btn-load{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;box-shadow:0 3px 10px rgba(26,53,96,0.25);}
-.demo-btn-load:hover{transform:translateY(-1px);}
+.demo-btn-row{display:flex;gap:10px;margin-bottom:16px;}
+.demo-btn{flex:1;padding:12px;border:none;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.demo-btn-load{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;}
 .demo-btn-clear{background:var(--error-bg);color:var(--error);border:1.5px solid #FFCACA;}
-.demo-btn-clear:hover{background:#FFE0E0;}
-.demo-list{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:14px 16px;}
+.demo-list{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:12px 16px;max-height:280px;overflow-y:auto;}
 .demo-list-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--gray-200);font-size:12px;color:var(--gray-600);}
 .demo-list-item:last-child{border-bottom:none;}
-.demo-list-item-num{font-size:11px;font-weight:700;color:var(--gold);min-width:20px;}
-
-.how-section{margin-bottom:20px;}
-.how-section-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px;padding-bottom:6px;border-bottom:2px solid var(--gray-200);}
-.how-badge{background:var(--navy);color:white;border-radius:4px;padding:2px 8px;font-size:11px;}
+.demo-list-item-num{font-size:11px;font-weight:700;color:var(--gold);min-width:22px;}
 .how-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
-.how-num{width:22px;height:22px;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.how-num{width:22px;height:22px;background:var(--navy);color:white;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .how-text{font-size:13px;color:var(--text);line-height:1.6;}
-.how-text strong{color:var(--navy);}
-.how-note{background:var(--success-bg);border:1px solid #B0DFC0;border-radius:8px;padding:12px 14px;font-size:12px;color:var(--success);line-height:1.6;margin-top:4px;}
-.how-warn{background:#FFF8E8;border:1px solid #F0D080;border-radius:8px;padding:12px 14px;font-size:12px;color:#8A6000;line-height:1.6;}
+.how-warn{background:#FFF8E8;border:1px solid #F0D080;border-radius:8px;padding:12px 14px;font-size:12px;color:#8A6000;line-height:1.7;margin-top:12px;}
 .check-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px;font-size:12px;color:var(--gray-600);}
 .check-row::before{content:'✅';flex-shrink:0;}
 
-main{max-width:820px;margin:24px auto;padding:0 16px;}
+/* メイン */
+main{max-width:860px;margin:24px auto;padding:0 16px;}
 .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:18px;}
-.card-title{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:0.06em;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.card-title{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:0.06em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .card-title::before{content:'';display:block;width:4px;height:16px;background:var(--gold);border-radius:2px;}
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:600px){.settings-grid{grid-template-columns:1fr;}}
-.field label{display:block;font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:5px;letter-spacing:0.04em;}
-.field select,.field input[type="number"]{width:100%;padding:9px 11px;border:1.5px solid var(--gray-200);border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color 0.2s;appearance:auto;}
+.settings-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:620px){.settings-grid,.settings-grid-3{grid-template-columns:1fr;}}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:5px;}
+.field select,.field input[type="number"]{width:100%;padding:9px 11px;border:1.5px solid var(--gray-200);border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);appearance:auto;}
 .field select:focus,.field input[type="number"]:focus{outline:none;border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(42,74,128,0.10);}
+.field-inline{display:flex;align-items:center;gap:8px;}
+.field-inline span{font-size:14px;color:var(--gray-600);white-space:nowrap;}
 
-.preview-box{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:16px;margin-top:14px;display:flex;align-items:flex-start;gap:20px;}
-.preview-box-title{font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:10px;}
-.preview-stamp-wrap{display:flex;align-items:center;justify-content:center;min-width:60px;}
-.preview-stamp-sample{display:inline-flex;align-items:center;justify-content:center;border:2px solid #C02020;border-radius:6px;color:#C02020;font-family:'Noto Serif JP',serif;font-weight:700;padding:6px 10px;font-size:13px;letter-spacing:0.08em;background:rgba(255,248,248,0.95);white-space:nowrap;}
-.preview-stamp-sample.vertical{writing-mode:vertical-rl;text-orientation:upright;padding:8px 8px;letter-spacing:0.12em;}
+/* プレビュー */
+.preview-box{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:16px;margin-top:16px;display:flex;align-items:flex-start;gap:20px;}
+.preview-stamp-sample{display:inline-flex;align-items:center;justify-content:center;border:2.5px solid #C02020;border-radius:6px;color:#C02020;font-family:'Noto Serif JP',serif;font-weight:700;padding:6px 10px;font-size:14px;letter-spacing:0.08em;background:rgba(255,248,248,0.95);white-space:nowrap;min-width:48px;}
+.preview-stamp-sample.vertical{writing-mode:vertical-rl;text-orientation:upright;padding:8px 8px;font-size:16px;letter-spacing:0.12em;}
 .preview-desc{font-size:12px;color:var(--gray-600);line-height:1.8;flex:1;}
 
-.dropzone{border:2.5px dashed var(--gray-200);border-radius:var(--radius);padding:36px 24px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--gray-100);}
+/* ドロップゾーン */
+.dropzone{border:2.5px dashed var(--gray-200);border-radius:var(--radius);padding:32px 24px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--gray-100);}
 .dropzone:hover,.dropzone.dragover{border-color:var(--navy-light);background:#EEF1FA;}
-.dropzone-icon{font-size:36px;margin-bottom:8px;}
-.dropzone-main{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.dropzone-icon{font-size:34px;margin-bottom:8px;}
+.dropzone-main{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
 .dropzone-sub{font-size:12px;color:var(--gray-400);}
 #file-input{display:none;}
 
+/* ファイルリスト */
 .file-list{margin-top:14px;display:flex;flex-direction:column;gap:7px;}
-.file-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);}
+.file-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);cursor:grab;transition:box-shadow 0.15s;}
+.file-item:active{cursor:grabbing;}
 .file-item.is-demo{background:#FFFBF0;border-color:#F0D080;}
-.file-item-icon{font-size:16px;flex-shrink:0;}
+.file-item.drag-over{border-color:var(--navy-light);box-shadow:0 0 0 2px rgba(42,74,128,0.2);background:#EEF1FA;}
+.file-item.dragging{opacity:0.4;}
+.drag-handle{font-size:16px;color:var(--gray-400);cursor:grab;flex-shrink:0;padding:0 2px;}
+.file-item-icon{font-size:15px;flex-shrink:0;}
 .file-item-title-input{flex:1;padding:4px 8px;border:1.5px solid var(--gray-200);border-radius:6px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text);min-width:0;background:white;}
 .file-item-title-input:focus{outline:none;border-color:var(--navy-light);}
-.file-item-stamp{font-size:12px;font-weight:700;color:#C02020;background:rgba(192,32,32,0.08);border-radius:4px;padding:2px 8px;white-space:nowrap;flex-shrink:0;border:1px solid rgba(192,32,32,0.2);}
-.file-item-remove{background:none;border:none;cursor:pointer;font-size:15px;color:var(--gray-400);padding:2px 4px;line-height:1;flex-shrink:0;transition:color 0.15s;}
+.file-item-stamp{font-size:12px;font-weight:700;color:#C02020;background:rgba(192,32,32,0.08);border-radius:4px;padding:3px 8px;white-space:nowrap;flex-shrink:0;border:1px solid rgba(192,32,32,0.2);}
+.file-item-remove{background:none;border:none;cursor:pointer;font-size:15px;color:var(--gray-400);padding:2px 4px;flex-shrink:0;transition:color 0.15s;}
 .file-item-remove:hover{color:var(--error);}
 .file-count{font-size:12px;color:var(--gray-400);text-align:right;margin-top:6px;}
 
-.run-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:white;border:none;border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;box-shadow:0 4px 14px rgba(26,53,96,0.3);}
+/* 実行ボタン */
+.run-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:white;border:none;border-radius:var(--radius);font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;box-shadow:0 4px 14px rgba(26,53,96,0.3);}
 .run-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,53,96,0.35);}
 .run-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
 .progress-wrap{display:none;margin-top:14px;}
@@ -134,14 +133,12 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
       <button class="modal-close" onclick="closeModal('demo-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="demo-section-title">デモデータ操作</div>
       <div class="demo-btn-row">
         <button class="demo-btn demo-btn-load" onclick="loadDemoData()">📂 デモデータを読み込む（15件）</button>
         <button class="demo-btn demo-btn-clear" onclick="clearDemoData()">🗑️ デモデータをクリア</button>
       </div>
-      <div class="demo-section-title">デモデータの内容（全15件）</div>
       <div class="demo-list" id="demo-list-preview"></div>
-      <div style="margin-top:14px;padding:12px;background:#EEF4FF;border-radius:8px;font-size:12px;color:var(--navy);line-height:1.7;">
+      <div style="margin-top:12px;padding:10px;background:#EEF4FF;border-radius:8px;font-size:12px;color:var(--navy);line-height:1.7;">
         💡 デモデータはファイル名のみのダミーです。実際のPDFと混在させることも可能です。
       </div>
     </div>
@@ -152,86 +149,94 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
 <div class="modal-overlay" id="how-modal">
   <div class="modal">
     <div class="modal-header">
-      <h2>📖 証拠番号スタンプくんの使い方</h2>
+      <h2>📖 使い方</h2>
       <button class="modal-close" onclick="closeModal('how-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="how-section">
-        <div class="how-section-title"><span class="how-badge">目的</span>このツールで何ができるか</div>
-        <div class="check-row">裁判所提出PDFに「甲第1号証」「甲第2号証」と自動で連番スタンプを押せます</div>
-        <div class="check-row">縦書き・横書きを選択できます</div>
-        <div class="check-row">ファイル名をmints形式に自動リネームできます</div>
-        <div class="check-row">PDFデータは外部に一切送信されません（完全ローカル処理）</div>
+      <div style="margin-bottom:16px;">
+        <div class="check-row">PDFをドロップするだけで甲第1号証から自動連番スタンプを押印</div>
+        <div class="check-row">甲・乙・丙・資料・別紙・疎甲・疎乙の符号を選択できます</div>
+        <div class="check-row">縦書き・横書きのスタンプ向きを選べます</div>
+        <div class="check-row">枝番号（甲1の1・甲1の2）にも対応しています</div>
+        <div class="check-row">ファイルの順番はドラッグ＆ドロップで並び替えできます</div>
+        <div class="check-row">データは外部に送信されません（完全ローカル処理）</div>
       </div>
-      <div class="how-section">
-        <div class="how-section-title"><span class="how-badge">手順</span>4ステップで完了</div>
-        <div class="how-item"><div class="how-num">1</div><div class="how-text"><strong>符号・番号・向きを設定する</strong><br>甲／乙／丙、開始番号、縦書き／横書きを選択します</div></div>
-        <div class="how-item"><div class="how-num">2</div><div class="how-text"><strong>PDFをドラッグ＆ドロップで読み込む</strong><br>複数ファイルを一度にドロップ可能。読み込んだ順が証拠番号の順になります</div></div>
-        <div class="how-item"><div class="how-num">3</div><div class="how-text"><strong>証拠の標目を確認・編集する</strong><br>ファイル名が自動入力されます。必要に応じて書き直せます</div></div>
-        <div class="how-item"><div class="how-num">4</div><div class="how-text"><strong>一括スタンプ＆ダウンロードを押す</strong><br>全ファイルの1ページ目右上に赤枠スタンプが押印されダウンロードされます</div></div>
-      </div>
-      <div class="how-section">
-        <div class="how-section-title"><span class="how-badge">注意</span>ご利用にあたって</div>
-        <div class="how-warn">
-          ・最終的な証拠番号の正確性は必ずご本人で確認してください<br>
-          ・スタンプは各PDFの1ページ目右上に固定で押印されます<br>
-          ・処理後のPDFは必ず内容をご確認のうえご使用ください
-        </div>
+      <div class="how-item"><div class="how-num">1</div><div class="how-text">符号・番号・向きを設定する</div></div>
+      <div class="how-item"><div class="how-num">2</div><div class="how-text">PDFをドラッグ＆ドロップで読み込む</div></div>
+      <div class="how-item"><div class="how-num">3</div><div class="how-text">リストの☰をドラッグして順番を調整する</div></div>
+      <div class="how-item"><div class="how-num">4</div><div class="how-text">証拠の標目（タイトル）を確認・編集する</div></div>
+      <div class="how-item"><div class="how-num">5</div><div class="how-text">「一括スタンプ＆ダウンロード」を押す</div></div>
+      <div class="how-warn">
+        ・スタンプは各PDFの1ページ目右上に固定で押印されます（次バージョンで位置指定対応予定）<br>
+        ・最終的な証拠番号の正確性は必ずご確認ください
       </div>
     </div>
   </div>
 </div>
 
 <main>
+  <!-- スタンプ設定 -->
   <div class="card">
     <div class="card-title">スタンプ設定</div>
-    <div class="settings-grid">
+    <div class="settings-grid" style="margin-bottom:14px;">
       <div class="field">
         <label>符号（提出者の立場）</label>
         <select id="fugo">
           <option value="甲">甲（原告・申立人）</option>
           <option value="乙">乙（被告・相手方）</option>
           <option value="丙">丙（参加人・その他）</option>
+          <option value="資料">資料</option>
+          <option value="別紙">別紙</option>
+          <option value="疎甲">疎甲</option>
+          <option value="疎乙">疎乙</option>
         </select>
       </div>
+      <div class="field">
+        <label>スタンプの向き</label>
+        <select id="stamp-direction">
+          <option value="vertical">縦書き</option>
+          <option value="horizontal">横書き</option>
+        </select>
+      </div>
+    </div>
+    <div class="settings-grid-3">
       <div class="field">
         <label>開始番号</label>
         <input type="number" id="start-num" value="1" min="1" max="999">
       </div>
       <div class="field">
-        <label>スタンプの向き</label>
-        <select id="stamp-direction">
-          <option value="vertical">縦書き（甲を上に縦並び）</option>
-          <option value="horizontal">横書き（甲第1号証を1行で）</option>
-        </select>
+        <label>枝番号（任意）</label>
+        <div class="field-inline">
+          <span>の</span>
+          <input type="number" id="eda-num" value="" min="1" max="99" placeholder="なし">
+        </div>
       </div>
       <div class="field">
         <label>ファイル名の形式</label>
         <select id="filename-format">
           <option value="mints">mints形式（甲001 タイトル.pdf）</option>
-          <option value="kanji">漢字形式（甲第1号証 タイトル.pdf）</option>
           <option value="original">元のファイル名を保持</option>
         </select>
       </div>
     </div>
+
     <div class="preview-box">
       <div>
-        <div class="preview-box-title">スタンプイメージ（1ページ目右上に押印）</div>
-        <div class="preview-stamp-wrap">
-          <div id="stamp-preview" class="preview-stamp-sample vertical">甲第1号証</div>
-        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;">スタンプイメージ</div>
+        <div id="stamp-preview" class="preview-stamp-sample vertical">甲第１号証</div>
       </div>
       <div class="preview-desc">
-        ・赤枠付きで1ページ目右上に押印されます<br>
-        ・縦書き：文字を上から1文字ずつ縦に並べます<br>
-        ・横書き：甲第1号証を1行でコンパクトに押印します<br>
-        ・符号・番号・向きを変えると即時プレビュー更新
+        ・赤枠付きで1ページ目右上に押印<br>
+        ・縦書き：文字を上から縦に並べます<br>
+        ・横書き：1行でコンパクトに押印します<br>
+        ・枝番号を入力すると「甲第１号証の１」になります
       </div>
     </div>
   </div>
 
+  <!-- ファイル読み込み -->
   <div class="card">
-    <div class="card-title">PDFファイルの読み込み</div>
+    <div class="card-title">PDFファイルの読み込み　<span style="font-size:11px;font-weight:400;color:var(--gray-400);">☰ をドラッグして順番を変更できます</span></div>
     <div class="dropzone" id="dropzone">
       <div class="dropzone-icon">📂</div>
       <div class="dropzone-main">PDFをここにドラッグ＆ドロップ</div>
@@ -242,6 +247,7 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
     <div class="file-count" id="file-count"></div>
   </div>
 
+  <!-- 実行 -->
   <div class="card">
     <div class="card-title">スタンプ処理の実行</div>
     <button class="run-btn" id="run-btn" disabled>
@@ -259,8 +265,7 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
 
 <script>
 // ============================================================
-// 日本語フォント（Noto Serif JP サブセット・base64埋め込み）
-// 甲乙丙第号証＋数字のみ収録 / 約12KB
+// 日本語フォント（Noto Serif JP サブセット埋め込み）
 // ============================================================
 const STAMP_FONT_B64 = "T1RUTwAPAIAAAwBwQkFTRULjT+4AACo8AAAA3kNGRiAnQaI8AAALXAAAHt1HUE9TrpGO0gAAKxwAAADeR1NVQtkdxFEAACv8AAADrk9TLzJjYGS+AAABYAAAAGBWT1JHBCoX6QAAL6wAAAAkY21hcOr5gIEAAArQAAAAbGhlYWQsI/s0AAAA/AAAADZoaGVhCGQDCgAAATQAAAAkaG10eIJUD4UAAC/QAAAAum1heHAAM1AAAAABWAAAAAZuYW1lj5hRLQAAAcAAAAkQcG9zdP+4ADIAAAs8AAAAIHZoZWEF3xH1AAAwjAAAACR2bXR4DoQLCQAAMLAAAABoAAEAAAACAMSUlBPmXw889QADA+gAAAAA4scZRgAAAADmYJ1SABH/iAPSA3AAAQADAAIAAAAAAAAAAQAABH/+4gAAA+gAEQAVA9IAAQAAAAAAAAAAAAAAAAAAACoAAFAAADMAAAADA9wCvAAFAAACigJYAAAASwKKAlgAAAFeADIBNAAAAgIHAAAAAAAAAAAAAAEIAAAAAAAAEAAAAABHT09HACAAMP8ZA3D/iAAABH8BHgAAAAEAAAAAAgIC2QAAACAABgAAAA8AugADAAEECQAAAFQAAAADAAEECQABACIAVAADAAEECQACAAgAdgADAAEECQADAEgAfgADAAEECQAEACwAxgADAAEECQAFAFgA8gADAAEECQAGACYBSgADAAEECQAHAEQBcAADAAEECQAIAAoBtAADAAEECQAJAdwBvgADAAEECQAKAYQDmgADAAEECQALADoFHgADAAEECQAMADQFWAADAAEECQANApYFjAADAAEECQAOADQIIgCpACAAMgAwADEANwAtADIAMAAyADQAIABBAGQAbwBiAGUAIAAoAGgAdAB0AHAAOgAvAC8AdwB3AHcALgBhAGQAbwBiAGUALgBjAG8AbQAvACkALgBOAG8AdABvACAAUwBlAHIAaQBmACAAQwBKAEsAIABKAFAAQgBvAGwAZAAyAC4AMAAwADMAOwBHAE8ATwBHADsATgBvAHQAbwBTAGUAcgBpAGYAQwBKAEsAagBwAC0AQgBvAGwAZAA7AEEARABPAEIARQBOAG8AdABvACAAUwBlAHIAaQBmACAAQwBKAEsAIABKAFAAIABCAG8AbABkAFYAZQByAHMAaQBvAG4AIAAyAC4AMAAwADMAOwBoAG8AdABjAG8AbgB2ACAAMQAuADEALgAxADsAbQBhAGsAZQBvAHQAZgBlAHgAZQAgADIALgA2AC4AMABOAG8AdABvAFMAZQByAGkAZgBDAEoASwBqAHAALQBCAG8AbABkAE4AbwB0AG8AIABpAHMAIABhACAAdAByAGEAZABlAG0AYQByAGsAIABvAGYAIABHAG8AbwBnAGwAZQAgAEkAbgBjAC4AQQBkAG8AYgBlAFIAeQBvAGsAbwAgAE4ASQBTAEgASQBaAFUASwBBACCJf1habbxbUAAgACgAawBhAG4AYQAgACYAIABpAGQAZQBvAGcAcgBhAHAAaABzACkAOwAgAEYAcgBhAG4AawAgAEcAcgBpAGUA3wBoAGEAbQBtAGUAcgAgACgATABhAHQAaQBuACwAIABHAHIAZQBlAGsAIAAmACAAQwB5AHIAaQBsAGwAaQBjACkAOwAgAFcAZQBuAGwAbwBuAGcAIABaAEgAQQBOAEcAIF8gZYefmQAgACgAYgBvAHAAbwBtAG8AZgBvACkAOwAgAFMAYQBuAGQAbwBsAGwAIABDAG8AbQBtAHUAbgBpAGMAYQB0AGkAbwBuAHMAIMCws8zO5LukssjPAMd0wVgALAAgAFMAbwBvAGgAeQB1AG4AIABQAEEAUgBLACC8FcIY1gQALAAgAFkAZQBqAGkAbgAgAFcARQAgxwTGCMnEACAAJgAgAEQAbwBuAGcAaABvAG8AbgAgAEgAQQBOACDVXLPZ1sgAIAAoAGgAYQBuAGcAdQBsACAAZQBsAGUAbQBlAG4AdABzACwAIABsAGUAdAB0AGUAcgBzACAAJgAgAHMAeQBsAGwAYQBiAGwAZQBzACkARAByAC4AIABLAGUAbgAgAEwAdQBuAGQAZQAgACgAcAByAG8AagBlAGMAdAAgAGEAcgBjAGgAaQB0AGUAYwB0ACwAIABnAGwAeQBwAGgAIABzAGUAdAAgAGQAZQBmAGkAbgBpAHQAaQBvAG4AIAAmACAAbwB2AGUAcgBhAGwAbAAgAHAAcgBvAGQAdQBjAHQAaQBvAG4AKQA7ACAATQBhAHMAYQB0AGEAawBhACAASABBAFQAVABPAFIASQAgZw2Q6GtjjLQAIAAoAHAAcgBvAGQAdQBjAHQAaQBvAG4AIAAmACAAaQBkAGUAbwBnAHIAYQBwAGgAIABlAGwAZQBtAGUAbgB0AHMAKQA7ACAAWgBhAGMAaABhAHIAeQAgAFEAdQBpAG4AbgAgAFMAYwBoAGUAdQByAGUAbgAgACgAdgBhAHIAaQBhAGIAbABlACAAZgBvAG4AdAAgACYAIABvAHYAZQByAGEAbABsACAAcAByAG8AZAB1AGMAdABpAG8AbgApAGgAdAB0AHAAcwA6AC8ALwBmAG8AbgB0AHMALgBnAG8AbwBnAGwAZQAuAGMAbwBtAC8AbgBvAHQAbwBoAHQAdABwADoALwAvAHcAdwB3AC4AYQBkAG8AYgBlAC4AYwBvAG0ALwB0AHkAcABlAC8AVABoAGkAcwAgAEYAbwBuAHQAIABTAG8AZgB0AHcAYQByAGUAIABpAHMAIABsAGkAYwBlAG4AcwBlAGQAIAB1AG4AZABlAHIAIAB0AGgAZQAgAFMASQBMACAATwBwAGUAbgAgAEYAbwBuAHQAIABMAGkAYwBlAG4AcwBlACwAIABWAGUAcgBzAGkAbwBuACAAMQAuADEALgAgAFQAaABpAHMAIABGAG8AbgB0ACAAUwBvAGYAdAB3AGEAcgBlACAAaQBzACAAZABpAHMAdAByAGkAYgB1AHQAZQBkACAAbwBuACAAYQBuACAAIgBBAFMAIABJAFMAIgAgAEIAQQBTAEkAUwAsACAAVwBJAFQASABPAFUAVAAgAFcAQQBSAFIAQQBOAFQASQBFAFMAIABPAFIAIABDAE8ATgBEAEkAVABJAE8ATgBTACAATwBGACAAQQBOAFkAIABLAEkATgBEACwAIABlAGkAdABoAGUAcgAgAGUAeABwAHIAZQBzAHMAIABvAHIAIABpAG0AcABsAGkAZQBkAC4AIABTAGUAZQAgAHQAaABlACAAUwBJAEwAIABPAHAAZQBuACAARgBvAG4AdAAgAEwAaQBjAGUAbgBzAGUAIABmAG8AcgAgAHQAaABlACAAcwBwAGUAYwBpAGYAaQBjACAAbABhAG4AZwB1AGEAZwBlACwAIABwAGUAcgBtAGkAcwBzAGkAbwBuAHMAIABhAG4AZAAgAGwAaQBtAGkAdABhAHQAaQBvAG4AcwAgAGcAbwB2AGUAcgBuAGkAbgBnACAAeQBvAHUAcgAgAHUAcwBlACAAbwBmACAAdABoAGkAcwAgAEYAbwBuAHQAIABT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AC8ABwACADAACAACADEACQACADIACgACABUAKQACABYAKgACABcAKwACABgALAACABkALQACABoALgACABsALwACABwAMAACAB0AMQACAB4AMgACABUAAQACABYAAgACABcAAwACABgABAACABkABQACABoABgACABsABwACABwACAACAB0ACQACAB4ACgACAAIAAQAKAAAAFQAyAAoAAQAAAAEACAACAEIAHgAVABYAFwAYABkAGgAbABwAHQAeABUAFgAXABgAGQAaABsAHAAdAB4AFQAWABcAGAAZABoAGwAcAB0AHgACAAIAAQAKAAAAHwAyAAoAAQAAAAEACAACAEIAHgApACoAKwAsAC0ALgAvADAAMQAyACkAKgArACwALQAuAC8AMAAxADIAKQAqACsALAAtAC4ALwAwADEAMgACAAIAAQAKAAAAFQAoAAoAAQAAAAEACAACAC4AFAABAAIAAwAEAAUABgAHAAgACQAKAAEAAgADAAQABQAGAAcACAAJAAoAAgACABUAHgAAACkAMgAKAAcAAAABAAgAAQABAAAAMAAHAAAAAQAIAAEAAQAAADAAAQAAAAEACAABAAYAHgACAAEAAQAKAAAAAQAGAAEAAQADAA0AEAATAAIADAADAA4AEgAUAAEAAwANABAAEwAAAAEAAANwAAcAFQNrABgDawAaA2IAGwNrABwDawAdA2sAHgNpA+gAZAJRACwB0gA2AlIAOwJRACsCUQAhAlIAJwJSAC0CTAA6AlIANgJUACwD6AAiA+gATgPoAB4D6AAkA+gAbAPoABYD6AAbA+gAGgPoABwD6AAnA+gAyQPoARYD6ADzA+gA6wPoAM0D6ADrA+gA3wPoAOID6ADrA+gA6AJNAC4CTQBVAk0AOAJNADECTQAcAk0ALAJNACgCTQA6Ak0ANAJNACYB9AAhADQAJQAWABUAEQAnAC8AIQAfAAAAARAAAfT+DAAAA+gAAAAAA+gAAAABAAAAAAAAAAAAAAAAAAED6AAAAHsAgAB7AHsAfwCLAHsAiwB7AHsAHwBSACQAIQA/ABwAHgAXACUAMABqAHAAbwBqAH0AcwBqAH0AagBoAJgAnACYAJgAnQCoAJgAqACYAJgAcgBzAHIAcgB9AIIAcgCCAHIAcA==";
 
@@ -272,30 +277,31 @@ function b64ToUint8Array(b64) {
 }
 
 // ============================================================
-// デモデータ定義（15件）
+// デモデータ（15件）
 // ============================================================
 const DEMO_DATA = [
-  { title: '売買契約書（令和5年3月15日付）' },
-  { title: '不動産登記簿謄本（土地）' },
-  { title: '不動産登記簿謄本（建物）' },
-  { title: '領収書（令和5年4月分）' },
-  { title: '電子メール（令和5年5月2日送信分・写し）' },
-  { title: '診断書（令和5年6月10日付）' },
-  { title: '陳述書（申立人 田中一郎作成）' },
-  { title: '現場写真（令和5年7月撮影・全8枚）' },
-  { title: '銀行通帳写し（令和5年1月〜6月）' },
-  { title: '見積書（令和5年2月28日付）' },
-  { title: '工事請負契約書（令和4年12月1日付）' },
-  { title: '内容証明郵便（令和5年8月20日付）' },
-  { title: '給与明細書（令和5年9月分）' },
-  { title: '土地測量図（令和4年作成）' },
-  { title: '借用書（令和4年10月1日付）' },
+  '売買契約書（令和5年3月15日付）',
+  '不動産登記簿謄本（土地）',
+  '不動産登記簿謄本（建物）',
+  '領収書（令和5年4月分）',
+  '電子メール（令和5年5月2日送信分・写し）',
+  '診断書（令和5年6月10日付）',
+  '陳述書（申立人 田中一郎作成）',
+  '現場写真（令和5年7月撮影・全8枚）',
+  '銀行通帳写し（令和5年1月〜6月）',
+  '見積書（令和5年2月28日付）',
+  '工事請負契約書（令和4年12月1日付）',
+  '内容証明郵便（令和5年8月20日付）',
+  '給与明細書（令和5年9月分）',
+  '土地測量図（令和4年作成）',
+  '借用書（令和4年10月1日付）',
 ];
 
 // ============================================================
 // 状態管理
 // ============================================================
-let files = [];
+let files = []; // {file, title, isDemo}
+let dragSrcIndex = null;
 
 // ============================================================
 // モーダル
@@ -307,19 +313,15 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
 });
 
 // デモリスト描画
-(function() {
-  const el = document.getElementById('demo-list-preview');
-  el.innerHTML = DEMO_DATA.map((d, i) =>
-    `<div class="demo-list-item"><span class="demo-list-item-num">${i+1}</span>${escHtml(d.title)}</div>`
-  ).join('');
-})();
+document.getElementById('demo-list-preview').innerHTML =
+  DEMO_DATA.map((t, i) => `<div class="demo-list-item"><span class="demo-list-item-num">${i+1}</span>${escHtml(t)}</div>`).join('');
 
 // ============================================================
 // デモデータ操作
 // ============================================================
 function loadDemoData() {
   files = files.filter(f => !f.isDemo);
-  DEMO_DATA.forEach(d => files.push({ file: null, title: d.title, isDemo: true }));
+  DEMO_DATA.forEach(t => files.push({ file: null, title: t, isDemo: true }));
   closeModal('demo-modal');
   renderFileList();
 }
@@ -330,107 +332,150 @@ function clearDemoData() {
 }
 
 // ============================================================
-// スタンプテキスト・ファイル名生成
+// スタンプテキスト生成
 // ============================================================
-function getStampText(fugo, num) {
-  return fugo + '第' + num + '号証';
-}
-// 縦書きPDF用：数字を全角に変換（半角数字は縦書きで横向きになるため）
-function toZenkakuForPDF(str) {
+function toZenkaku(str) {
   return str.replace(/[0-9]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0xFEE0));
 }
-function getFileName(fugo, num, title, format) {
+
+function getStampText(fugo, num, edaNum) {
+  const eda = edaNum ? 'の' + edaNum : '';
+  return fugo + '第' + num + '号証' + eda;
+}
+
+function getStampTextZen(fugo, num, edaNum) {
+  const eda = edaNum ? 'の' + toZenkaku(String(edaNum)) : '';
+  return fugo + '第' + toZenkaku(String(num)) + '号証' + eda;
+}
+
+function getFileName(fugo, num, edaNum, title, format) {
   if (format === 'original') return null;
-  const clean = title.replace(/[\/:*?"<>|]/g, '_').trim();
-  if (format === 'mints') return fugo + String(num).padStart(3,'0') + (clean ? ' '+clean : '') + '.pdf';
-  return fugo + '第' + num + '号証' + (clean ? ' '+clean : '') + '.pdf';
+  const eda = edaNum ? '-' + edaNum : '';
+  const clean = title.replace(/[\\/:*?"<>|]/g, '_').trim();
+  return fugo + String(num).padStart(3,'0') + eda + (clean ? ' ' + clean : '') + '.pdf';
 }
 
 // ============================================================
 // プレビュー更新
 // ============================================================
-function toZenkaku(str) {
-  return str.replace(/[0-9]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0xFEE0));
-}
 function updatePreview() {
   const fugo = document.getElementById('fugo').value;
   const num = parseInt(document.getElementById('start-num').value) || 1;
+  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
   const dir = document.getElementById('stamp-direction').value;
-  const text = getStampText(fugo, num);
   const el = document.getElementById('stamp-preview');
-  // 縦書きプレビューは全角数字で表示（寝ないように）
-  el.textContent = dir === 'vertical' ? toZenkaku(text) : text;
-  if (dir === 'vertical') {
-    el.className = 'preview-stamp-sample vertical';
-  } else {
-    el.className = 'preview-stamp-sample';
-  }
+  const text = dir === 'vertical'
+    ? getStampTextZen(fugo, num, edaNum)
+    : getStampText(fugo, num, edaNum);
+  el.textContent = text;
+  el.className = 'preview-stamp-sample' + (dir === 'vertical' ? ' vertical' : '');
 }
-document.getElementById('fugo').addEventListener('change', () => { updatePreview(); renderFileList(); });
-document.getElementById('start-num').addEventListener('input', () => { updatePreview(); renderFileList(); });
-document.getElementById('stamp-direction').addEventListener('change', updatePreview);
-document.getElementById('filename-format').addEventListener('change', renderFileList);
+
+['fugo','start-num','eda-num','stamp-direction'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => { updatePreview(); renderFileList(); });
+  document.getElementById(id).addEventListener('input', () => { updatePreview(); renderFileList(); });
+});
 updatePreview();
 
 // ============================================================
-// ファイルリスト描画
+// ファイルリスト描画（ドラッグ＆ドロップ並び替え対応）
 // ============================================================
 function renderFileList() {
   const container = document.getElementById('file-list');
   container.innerHTML = '';
   const fugo = document.getElementById('fugo').value;
   const startNum = parseInt(document.getElementById('start-num').value) || 1;
+  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
 
   files.forEach((item, i) => {
-    const stampLabel = getStampText(fugo, startNum + i);
+    const stampLabel = getStampText(fugo, startNum + i, edaNum);
     const div = document.createElement('div');
     div.className = 'file-item' + (item.isDemo ? ' is-demo' : '');
+    div.draggable = true;
+    div.dataset.index = i;
     div.innerHTML =
+      `<span class="drag-handle" title="ドラッグして並び替え">☰</span>` +
       `<span class="file-item-icon">${item.isDemo ? '📋' : '📄'}</span>` +
       `<input class="file-item-title-input" type="text" value="${escHtml(item.title)}" placeholder="証拠の標目" data-index="${i}">` +
       `<span class="file-item-stamp">${escHtml(stampLabel)}</span>` +
       `<button class="file-item-remove" data-index="${i}" title="削除">✕</button>`;
     container.appendChild(div);
+
+    // ドラッグ並び替えイベント
+    div.addEventListener('dragstart', e => {
+      dragSrcIndex = i;
+      div.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    div.addEventListener('dragend', () => {
+      div.classList.remove('dragging');
+      container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
+    });
+    div.addEventListener('dragover', e => {
+      e.preventDefault();
+      container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
+      div.classList.add('drag-over');
+    });
+    div.addEventListener('drop', e => {
+      e.preventDefault();
+      if (dragSrcIndex === null || dragSrcIndex === i) return;
+      const moved = files.splice(dragSrcIndex, 1)[0];
+      files.splice(i, 0, moved);
+      dragSrcIndex = null;
+      renderFileList();
+    });
   });
 
+  // タイトル編集・削除
   container.querySelectorAll('.file-item-title-input').forEach(input => {
     input.addEventListener('input', e => { files[parseInt(e.target.dataset.index)].title = e.target.value; });
   });
   container.querySelectorAll('.file-item-remove').forEach(btn => {
-    btn.addEventListener('click', e => { files.splice(parseInt(e.target.dataset.index), 1); renderFileList(); });
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      files.splice(parseInt(e.target.dataset.index), 1);
+      renderFileList();
+    });
   });
 
-  const countEl = document.getElementById('file-count');
-  countEl.textContent = files.length > 0
+  const c = document.getElementById('file-count');
+  c.textContent = files.length > 0
     ? `合計 ${files.length} 件（デモ：${files.filter(f=>f.isDemo).length}件 / 実PDF：${files.filter(f=>!f.isDemo).length}件）`
     : '';
   document.getElementById('run-btn').disabled = files.length === 0;
 }
 
 // ============================================================
-// ドラッグ＆ドロップ
+// ドロップゾーン
 // ============================================================
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('file-input');
 dropzone.addEventListener('click', () => fileInput.click());
 dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
 dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('dragover'); addFiles(e.dataTransfer.files); });
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  addFiles(e.dataTransfer.files);
+});
 fileInput.addEventListener('change', e => { addFiles(e.target.files); fileInput.value = ''; });
 
 function addFiles(fileList) {
   Array.from(fileList).forEach(f => {
-    if (f.type === 'application/pdf') files.push({ file: f, title: f.name.replace(/\.pdf$/i,''), isDemo: false });
+    if (f.type === 'application/pdf') {
+      files.push({ file: f, title: f.name.replace(/\.pdf$/i, ''), isDemo: false });
+    }
   });
   renderFileList();
 }
 
 // ============================================================
-// PDF処理＆ダウンロード
+// PDF処理（バグ修正：逐次処理で確実にダウンロード）
 // ============================================================
 document.getElementById('run-btn').addEventListener('click', async () => {
   const fugo = document.getElementById('fugo').value;
   const startNum = parseInt(document.getElementById('start-num').value) || 1;
+  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
   const format = document.getElementById('filename-format').value;
   const direction = document.getElementById('stamp-direction').value;
 
@@ -442,52 +487,65 @@ document.getElementById('run-btn').addEventListener('click', async () => {
 
   progressWrap.style.display = 'block';
   msgEl.className = 'msg';
+  msgEl.textContent = '';
   runBtn.disabled = true;
   progressBar.style.width = '0%';
+
   let successCount = 0;
 
   try {
-    // フォントをまとめて1回だけ読み込む
+    // フォントを最初に1回だけ読み込む
     const fontBytes = b64ToUint8Array(STAMP_FONT_B64);
 
     for (let i = 0; i < files.length; i++) {
       const item = files[i];
       const num = startNum + i;
-      const stampText = getStampText(fugo, num);
+      const stampText = direction === 'vertical'
+        ? getStampTextZen(fugo, num, edaNum)
+        : getStampText(fugo, num, edaNum);
 
-      progressText.textContent = `処理中... (${i+1}/${files.length})　${stampText}　${item.title}`;
+      progressText.textContent = `処理中... (${i+1}/${files.length})　${getStampText(fugo, num, edaNum)}　${item.title}`;
       progressBar.style.width = ((i / files.length) * 100) + '%';
 
       let pdfDoc;
-      if (item.isDemo || !item.file) {
-        pdfDoc = await PDFLib.PDFDocument.create();
-        pdfDoc.addPage([595, 842]);
-      } else {
-        const ab = await item.file.arrayBuffer();
-        pdfDoc = await PDFLib.PDFDocument.load(ab);
+      try {
+        if (item.isDemo || !item.file) {
+          // デモ：空のA4 PDF生成
+          pdfDoc = await PDFLib.PDFDocument.create();
+          pdfDoc.addPage([595, 842]);
+        } else {
+          // 実PDF読み込み
+          const ab = await item.file.arrayBuffer();
+          pdfDoc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        }
+
+        // fontkitとフォント埋め込み
+        pdfDoc.registerFontkit(fontkit);
+        const font = await pdfDoc.embedFont(fontBytes);
+
+        // スタンプ描画
+        const page = pdfDoc.getPages()[0];
+        drawStamp(page, font, stampText, direction);
+
+        // PDF保存
+        const pdfBytes = await pdfDoc.save();
+
+        // ファイル名決定
+        let dlName = getFileName(fugo, num, edaNum, item.title, format);
+        if (!dlName) dlName = item.file ? item.file.name : item.title + '.pdf';
+
+        // ダウンロード（確実に逐次処理）
+        await downloadBlob(pdfBytes, dlName);
+        successCount++;
+
+        // 次のファイルまで少し待機（ブラウザの連続DL制限を回避）
+        await sleep(600);
+
+      } catch (fileErr) {
+        console.error(`ファイル${i+1}でエラー:`, fileErr);
+        progressText.textContent = `⚠️ ${item.title} の処理中にエラーが発生しました。スキップします。`;
+        await sleep(800);
       }
-
-      // fontkit登録＆フォント埋め込み
-      pdfDoc.registerFontkit(fontkit);
-      const font = await pdfDoc.embedFont(fontBytes);
-
-      const page = pdfDoc.getPages()[0];
-      // 縦書きの場合は数字を全角に変換して渡す
-      const stampTextForPDF = direction === 'vertical' ? toZenkakuForPDF(stampText) : stampText;
-      await drawStamp(page, font, stampTextForPDF, direction);
-
-      const pdfBytes = await pdfDoc.save();
-      let dlName = getFileName(fugo, num, item.title, format);
-      if (!dlName) dlName = item.file ? item.file.name : item.title + '.pdf';
-
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = dlName;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 4000);
-      successCount++;
-      await new Promise(r => setTimeout(r, 400));
     }
 
     progressBar.style.width = '100%';
@@ -504,40 +562,59 @@ document.getElementById('run-btn').addEventListener('click', async () => {
   }
 });
 
+// 確実なダウンロード処理
+function downloadBlob(pdfBytes, fileName) {
+  return new Promise(resolve => {
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      resolve();
+    }, 300);
+  });
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
 // ============================================================
-// スタンプ描画（横書き・縦書き両対応）
+// スタンプ描画（サイズ1.5倍）
 // ============================================================
-async function drawStamp(page, font, stampText, direction) {
+function drawStamp(page, font, stampText, direction) {
   const { width, height } = page.getSize();
   const red = PDFLib.rgb(0.76, 0.06, 0.06);
   const bgRed = PDFLib.rgb(1, 0.96, 0.96);
-  const pad = 5;
+  // サイズを1.5倍に拡大
+  const pad = 7;
 
   if (direction === 'horizontal') {
-    // 横書き：1行でコンパクトに右上へ
-    const fontSize = 10;
+    const fontSize = 15; // 旧10 → 1.5倍
     const textWidth = font.widthOfTextAtSize(stampText, fontSize);
     const boxW = textWidth + pad * 2;
     const boxH = fontSize + pad * 2;
-    const x = width - boxW - 8;
-    const y = height - 10;
-    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 1.8, color: bgRed, opacity: 0.97 });
-    page.drawText(stampText, { x: x + pad, y: y - boxH + pad + 1, size: fontSize, font, color: red });
-
+    const x = width - boxW - 10;
+    const y = height - 12;
+    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 2.5, color: bgRed, opacity: 0.97 });
+    page.drawText(stampText, { x: x + pad, y: y - boxH + pad + 2, size: fontSize, font, color: red });
   } else {
-    // 縦書き：1文字ずつ上から正順で描画
-    const fontSize = 11;
-    const lineH = fontSize + 3;
+    const fontSize = 16; // 旧11 → 1.5倍
+    const lineH = fontSize + 4;
     const chars = Array.from(stampText);
     const boxW = fontSize + pad * 2;
     const boxH = lineH * chars.length + pad * 2;
-    const x = width - boxW - 8;
-    const y = height - 10;
-    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 1.8, color: bgRed, opacity: 0.97 });
+    const x = width - boxW - 10;
+    const y = height - 12;
+    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 2.5, color: bgRed, opacity: 0.97 });
     chars.forEach((ch, i) => {
       page.drawText(ch, {
         x: x + pad,
-        y: y - pad - lineH * (i + 1) + 3,
+        y: y - pad - lineH * (i + 1) + 4,
         size: fontSize, font, color: red,
       });
     });
