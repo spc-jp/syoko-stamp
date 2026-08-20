@@ -7,6 +7,8 @@
 <link rel="icon" type="image/png" href="https://spc-jp.github.io/syoko-stamp/favicon.png">
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -41,7 +43,7 @@ header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
 .demo-btn{flex:1;padding:12px;border:none;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 .demo-btn-load{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;}
 .demo-btn-clear{background:var(--error-bg);color:var(--error);border:1.5px solid #FFCACA;}
-.demo-list{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:12px 16px;max-height:280px;overflow-y:auto;}
+.demo-list{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:12px 16px;max-height:260px;overflow-y:auto;}
 .demo-list-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--gray-200);font-size:12px;color:var(--gray-600);}
 .demo-list-item:last-child{border-bottom:none;}
 .demo-list-item-num{font-size:11px;font-weight:700;color:var(--gold);min-width:22px;}
@@ -53,7 +55,7 @@ header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
 .check-row::before{content:'✅';flex-shrink:0;}
 
 /* メイン */
-main{max-width:860px;margin:24px auto;padding:0 16px;}
+main{max-width:900px;margin:24px auto;padding:0 16px;}
 .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:18px;}
 .card-title{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:0.06em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .card-title::before{content:'';display:block;width:4px;height:16px;background:var(--gold);border-radius:2px;}
@@ -64,9 +66,9 @@ main{max-width:860px;margin:24px auto;padding:0 16px;}
 .field select,.field input[type="number"]{width:100%;padding:9px 11px;border:1.5px solid var(--gray-200);border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text);background:var(--white);appearance:auto;}
 .field select:focus,.field input[type="number"]:focus{outline:none;border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(42,74,128,0.10);}
 .field-inline{display:flex;align-items:center;gap:8px;}
-.field-inline span{font-size:14px;color:var(--gray-600);white-space:nowrap;}
+.field-inline span{font-size:14px;color:var(--gray-600);}
 
-/* プレビュー */
+/* プレビューボックス（設定カード内） */
 .preview-box{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:8px;padding:16px;margin-top:16px;display:flex;align-items:flex-start;gap:20px;}
 .preview-stamp-sample{display:inline-flex;align-items:center;justify-content:center;border:2.5px solid #C02020;border-radius:6px;color:#C02020;font-family:'Noto Serif JP',serif;font-weight:700;padding:6px 10px;font-size:14px;letter-spacing:0.08em;background:rgba(255,248,248,0.95);white-space:nowrap;min-width:48px;}
 .preview-stamp-sample.vertical{writing-mode:vertical-rl;text-orientation:upright;padding:8px 8px;font-size:16px;letter-spacing:0.12em;}
@@ -82,12 +84,11 @@ main{max-width:860px;margin:24px auto;padding:0 16px;}
 
 /* ファイルリスト */
 .file-list{margin-top:14px;display:flex;flex-direction:column;gap:7px;}
-.file-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);cursor:grab;transition:box-shadow 0.15s;}
-.file-item:active{cursor:grabbing;}
+.file-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);cursor:default;transition:box-shadow 0.15s;}
 .file-item.is-demo{background:#FFFBF0;border-color:#F0D080;}
 .file-item.drag-over{border-color:var(--navy-light);box-shadow:0 0 0 2px rgba(42,74,128,0.2);background:#EEF1FA;}
 .file-item.dragging{opacity:0.4;}
-.drag-handle{font-size:16px;color:var(--gray-400);cursor:grab;flex-shrink:0;padding:0 2px;}
+.drag-handle{font-size:16px;color:var(--gray-400);cursor:grab;flex-shrink:0;padding:0 2px;user-select:none;}
 .file-item-icon{font-size:15px;flex-shrink:0;}
 .file-item-title-input{flex:1;padding:4px 8px;border:1.5px solid var(--gray-200);border-radius:6px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text);min-width:0;background:white;}
 .file-item-title-input:focus{outline:none;border-color:var(--navy-light);}
@@ -107,6 +108,51 @@ main{max-width:860px;margin:24px auto;padding:0 16px;}
 .msg{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:13px;display:none;}
 .msg.success{background:var(--success-bg);color:var(--success);border:1px solid #B0DFC0;display:block;}
 .msg.error{background:var(--error-bg);color:var(--error);border:1px solid #FFCACA;display:block;}
+
+/* ============================================================
+   プレビューモーダル（スタンプ位置指定）
+   ============================================================ */
+.preview-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.75);z-index:2000;align-items:center;justify-content:center;padding:12px;}
+.preview-modal-overlay.open{display:flex;}
+.preview-modal{background:var(--white);border-radius:14px;box-shadow:0 12px 48px rgba(26,53,96,0.35);width:100%;max-width:780px;max-height:96vh;display:flex;flex-direction:column;animation:modalIn 0.22s ease;}
+.preview-modal-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:white;padding:14px 20px;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.preview-modal-header h2{font-size:15px;font-weight:700;font-family:'Noto Serif JP',serif;}
+.preview-modal-header p{font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px;}
+.preview-modal-body{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.preview-canvas-wrap{position:relative;display:inline-block;border:1px solid var(--gray-200);box-shadow:var(--shadow);cursor:crosshair;background:#f9f9f9;}
+#preview-canvas{display:block;}
+/* ドラッグ可能なスタンプ要素 */
+#stamp-drag{
+  position:absolute;
+  border:2.5px solid #C02020;
+  background:rgba(255,242,242,0.92);
+  border-radius:5px;
+  color:#C02020;
+  font-family:'Noto Serif JP',serif;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:0.1em;
+  cursor:move;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px 7px;
+  z-index:10;
+  box-shadow:0 2px 8px rgba(192,32,32,0.25);
+}
+#stamp-drag.vertical{writing-mode:vertical-rl;text-orientation:upright;}
+.preview-hint{font-size:12px;color:var(--gray-600);background:var(--gray-100);border-radius:8px;padding:8px 14px;text-align:center;width:100%;max-width:560px;}
+.preview-nav{display:flex;align-items:center;gap:12px;margin-top:4px;}
+.preview-nav-btn{padding:10px 20px;border:none;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+.preview-nav-btn.prev{background:var(--gray-100);color:var(--gray-600);border:1.5px solid var(--gray-200);}
+.preview-nav-btn.prev:hover{background:var(--gray-200);}
+.preview-nav-btn.confirm{background:linear-gradient(135deg,var(--success),#2A8A5A);color:white;box-shadow:0 3px 10px rgba(26,122,74,0.3);}
+.preview-nav-btn.confirm:hover{transform:translateY(-1px);}
+.preview-nav-btn.finish{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;box-shadow:0 3px 10px rgba(26,53,96,0.3);}
+.preview-nav-btn.finish:hover{transform:translateY(-1px);}
+.preview-file-info{font-size:13px;font-weight:700;color:var(--navy);min-width:140px;text-align:center;}
+
 footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);}
 </style>
 </head>
@@ -128,10 +174,7 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
 <!-- デモ設定モーダル -->
 <div class="modal-overlay" id="demo-modal">
   <div class="modal">
-    <div class="modal-header">
-      <h2>⚙️ デモ設定</h2>
-      <button class="modal-close" onclick="closeModal('demo-modal')">✕</button>
-    </div>
+    <div class="modal-header"><h2>⚙️ デモ設定</h2><button class="modal-close" onclick="closeModal('demo-modal')">✕</button></div>
     <div class="modal-body">
       <div class="demo-btn-row">
         <button class="demo-btn demo-btn-load" onclick="loadDemoData()">📂 デモデータを読み込む（15件）</button>
@@ -148,27 +191,50 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
 <!-- 使い方モーダル -->
 <div class="modal-overlay" id="how-modal">
   <div class="modal">
-    <div class="modal-header">
-      <h2>📖 使い方</h2>
-      <button class="modal-close" onclick="closeModal('how-modal')">✕</button>
-    </div>
+    <div class="modal-header"><h2>📖 使い方</h2><button class="modal-close" onclick="closeModal('how-modal')">✕</button></div>
     <div class="modal-body">
       <div style="margin-bottom:16px;">
-        <div class="check-row">PDFをドロップするだけで甲第1号証から自動連番スタンプを押印</div>
+        <div class="check-row">PDFをドロップするだけで自動連番スタンプを押印</div>
         <div class="check-row">甲・乙・丙・資料・別紙・疎甲・疎乙の符号を選択できます</div>
         <div class="check-row">縦書き・横書きのスタンプ向きを選べます</div>
         <div class="check-row">枝番号（甲1の1・甲1の2）にも対応しています</div>
-        <div class="check-row">ファイルの順番はドラッグ＆ドロップで並び替えできます</div>
+        <div class="check-row">1枚ずつプレビューしてスタンプ位置をドラッグで微調整できます</div>
+        <div class="check-row">全ファイルをZIPにまとめて一括ダウンロードできます</div>
         <div class="check-row">データは外部に送信されません（完全ローカル処理）</div>
       </div>
       <div class="how-item"><div class="how-num">1</div><div class="how-text">符号・番号・向きを設定する</div></div>
       <div class="how-item"><div class="how-num">2</div><div class="how-text">PDFをドラッグ＆ドロップで読み込む</div></div>
-      <div class="how-item"><div class="how-num">3</div><div class="how-text">リストの☰をドラッグして順番を調整する</div></div>
-      <div class="how-item"><div class="how-num">4</div><div class="how-text">証拠の標目（タイトル）を確認・編集する</div></div>
-      <div class="how-item"><div class="how-num">5</div><div class="how-text">「一括スタンプ＆ダウンロード」を押す</div></div>
-      <div class="how-warn">
-        ・スタンプは各PDFの1ページ目右上に固定で押印されます（次バージョンで位置指定対応予定）<br>
-        ・最終的な証拠番号の正確性は必ずご確認ください
+      <div class="how-item"><div class="how-num">3</div><div class="how-text">☰をドラッグして証拠番号の順番を調整する</div></div>
+      <div class="how-item"><div class="how-num">4</div><div class="how-text">「スタンプ位置を確認してダウンロード」を押す</div></div>
+      <div class="how-item"><div class="how-num">5</div><div class="how-text">1枚ずつプレビューしてスタンプ位置をドラッグで調整→確定</div></div>
+      <div class="how-item"><div class="how-num">6</div><div class="how-text">全ファイル確定後にZIPで一括ダウンロード</div></div>
+      <div class="how-warn">・最終的な証拠番号の正確性は必ずご確認ください<br>・処理後のPDFは必ず内容をご確認のうえご使用ください</div>
+    </div>
+  </div>
+</div>
+
+<!-- プレビューモーダル（スタンプ位置指定） -->
+<div class="preview-modal-overlay" id="preview-modal">
+  <div class="preview-modal">
+    <div class="preview-modal-header">
+      <div>
+        <h2 id="preview-modal-title">📄 スタンプ位置の確認・調整</h2>
+        <p id="preview-modal-sub">スタンプをドラッグして位置を調整してください</p>
+      </div>
+      <button class="modal-close" onclick="cancelPreview()">✕</button>
+    </div>
+    <div class="preview-modal-body">
+      <div class="preview-hint">
+        🖱️ 赤いスタンプをドラッグして位置を調整 → 「この位置で確定」を押すと次のファイルへ進みます
+      </div>
+      <div class="preview-canvas-wrap" id="preview-canvas-wrap">
+        <canvas id="preview-canvas"></canvas>
+        <div id="stamp-drag"></div>
+      </div>
+      <div class="preview-nav">
+        <button class="preview-nav-btn prev" onclick="cancelPreview()">✕ キャンセル</button>
+        <div class="preview-file-info" id="preview-file-info"></div>
+        <button class="preview-nav-btn confirm" id="preview-confirm-btn" onclick="confirmStampPosition()">✅ この位置で確定 → 次へ</button>
       </div>
     </div>
   </div>
@@ -219,17 +285,16 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
         </select>
       </div>
     </div>
-
     <div class="preview-box">
       <div>
         <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;">スタンプイメージ</div>
         <div id="stamp-preview" class="preview-stamp-sample vertical">甲第１号証</div>
       </div>
       <div class="preview-desc">
-        ・赤枠付きで1ページ目右上に押印<br>
+        ・赤枠付きスタンプを1ページ目に押印<br>
         ・縦書き：文字を上から縦に並べます<br>
         ・横書き：1行でコンパクトに押印します<br>
-        ・枝番号を入力すると「甲第１号証の１」になります
+        ・押印前に1枚ずつ位置をドラッグで微調整できます
       </div>
     </div>
   </div>
@@ -250,8 +315,8 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
   <!-- 実行 -->
   <div class="card">
     <div class="card-title">スタンプ処理の実行</div>
-    <button class="run-btn" id="run-btn" disabled>
-      ⬇️ 一括スタンプ＆ダウンロード
+    <button class="run-btn" id="run-btn" disabled onclick="startPreviewFlow()">
+      👁️ スタンプ位置を確認してZIPダウンロード
     </button>
     <div class="progress-wrap" id="progress-wrap">
       <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
@@ -264,6 +329,10 @@ footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--gray-400);
 <footer>証拠番号スタンプくん｜Smile Plus Consulting｜このツールで処理されたPDFデータは外部に送信されません</footer>
 
 <script>
+// PDF.jsワーカー設定
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
 // ============================================================
 // 日本語フォント（Noto Serif JP サブセット埋め込み）
 // ============================================================
@@ -277,172 +346,131 @@ function b64ToUint8Array(b64) {
 }
 
 // ============================================================
-// デモデータ（15件）
+// デモデータ
 // ============================================================
 const DEMO_DATA = [
-  '売買契約書（令和5年3月15日付）',
-  '不動産登記簿謄本（土地）',
-  '不動産登記簿謄本（建物）',
-  '領収書（令和5年4月分）',
-  '電子メール（令和5年5月2日送信分・写し）',
-  '診断書（令和5年6月10日付）',
-  '陳述書（申立人 田中一郎作成）',
-  '現場写真（令和5年7月撮影・全8枚）',
-  '銀行通帳写し（令和5年1月〜6月）',
-  '見積書（令和5年2月28日付）',
-  '工事請負契約書（令和4年12月1日付）',
-  '内容証明郵便（令和5年8月20日付）',
-  '給与明細書（令和5年9月分）',
-  '土地測量図（令和4年作成）',
-  '借用書（令和4年10月1日付）',
+  '売買契約書（令和5年3月15日付）','不動産登記簿謄本（土地）','不動産登記簿謄本（建物）',
+  '領収書（令和5年4月分）','電子メール（令和5年5月2日送信分・写し）','診断書（令和5年6月10日付）',
+  '陳述書（申立人 田中一郎作成）','現場写真（令和5年7月撮影・全8枚）','銀行通帳写し（令和5年1月〜6月）',
+  '見積書（令和5年2月28日付）','工事請負契約書（令和4年12月1日付）','内容証明郵便（令和5年8月20日付）',
+  '給与明細書（令和5年9月分）','土地測量図（令和4年作成）','借用書（令和4年10月1日付）',
 ];
 
 // ============================================================
 // 状態管理
 // ============================================================
-let files = []; // {file, title, isDemo}
+let files = [];
 let dragSrcIndex = null;
+
+// プレビューフロー用
+let previewQueue = [];    // 処理待ちファイル情報
+let previewIndex = 0;     // 現在のプレビューインデックス
+let stampPositions = [];  // 各ファイルのスタンプ位置 {xRatio, yRatio}
+let previewScale = 1;     // canvasスケール
 
 // ============================================================
 // モーダル
 // ============================================================
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
+  el.addEventListener('click', e => { if(e.target===el) closeModal(el.id); });
 });
 
 // デモリスト描画
 document.getElementById('demo-list-preview').innerHTML =
-  DEMO_DATA.map((t, i) => `<div class="demo-list-item"><span class="demo-list-item-num">${i+1}</span>${escHtml(t)}</div>`).join('');
+  DEMO_DATA.map((t,i)=>`<div class="demo-list-item"><span class="demo-list-item-num">${i+1}</span>${escHtml(t)}</div>`).join('');
 
 // ============================================================
 // デモデータ操作
 // ============================================================
-function loadDemoData() {
-  files = files.filter(f => !f.isDemo);
-  DEMO_DATA.forEach(t => files.push({ file: null, title: t, isDemo: true }));
-  closeModal('demo-modal');
-  renderFileList();
+function loadDemoData(){
+  files = files.filter(f=>!f.isDemo);
+  DEMO_DATA.forEach(t=>files.push({file:null,title:t,isDemo:true}));
+  closeModal('demo-modal'); renderFileList();
 }
-function clearDemoData() {
-  files = files.filter(f => !f.isDemo);
-  closeModal('demo-modal');
-  renderFileList();
+function clearDemoData(){
+  files = files.filter(f=>!f.isDemo);
+  closeModal('demo-modal'); renderFileList();
 }
 
 // ============================================================
 // スタンプテキスト生成
 // ============================================================
-function toZenkaku(str) {
-  return str.replace(/[0-9]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0xFEE0));
+function toZen(str){ return str.replace(/[0-9]/g,ch=>String.fromCharCode(ch.charCodeAt(0)+0xFEE0)); }
+function getStampText(fugo,num,eda){
+  return fugo+'第'+num+'号証'+(eda?'の'+eda:'');
 }
-
-function getStampText(fugo, num, edaNum) {
-  const eda = edaNum ? 'の' + edaNum : '';
-  return fugo + '第' + num + '号証' + eda;
+function getStampTextZen(fugo,num,eda){
+  return fugo+'第'+toZen(String(num))+'号証'+(eda?'の'+toZen(String(eda)):'');
 }
-
-function getStampTextZen(fugo, num, edaNum) {
-  const eda = edaNum ? 'の' + toZenkaku(String(edaNum)) : '';
-  return fugo + '第' + toZenkaku(String(num)) + '号証' + eda;
-}
-
-function getFileName(fugo, num, edaNum, title, format) {
-  if (format === 'original') return null;
-  const eda = edaNum ? '-' + edaNum : '';
-  const clean = title.replace(/[\\/:*?"<>|]/g, '_').trim();
-  return fugo + String(num).padStart(3,'0') + eda + (clean ? ' ' + clean : '') + '.pdf';
+function getFileName(fugo,num,eda,title,format){
+  if(format==='original') return null;
+  const e = eda?'-'+eda:'';
+  const clean = title.replace(/[\/\/:*?"<>|]/g,'_').trim();
+  return fugo+String(num).padStart(3,'0')+e+(clean?' '+clean:'')+'.pdf';
 }
 
 // ============================================================
-// プレビュー更新
+// プレビュー更新（設定カード内）
 // ============================================================
-function updatePreview() {
+function updatePreview(){
   const fugo = document.getElementById('fugo').value;
-  const num = parseInt(document.getElementById('start-num').value) || 1;
-  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
+  const num = parseInt(document.getElementById('start-num').value)||1;
+  const eda = parseInt(document.getElementById('eda-num').value)||0;
   const dir = document.getElementById('stamp-direction').value;
   const el = document.getElementById('stamp-preview');
-  const text = dir === 'vertical'
-    ? getStampTextZen(fugo, num, edaNum)
-    : getStampText(fugo, num, edaNum);
-  el.textContent = text;
-  el.className = 'preview-stamp-sample' + (dir === 'vertical' ? ' vertical' : '');
+  el.textContent = dir==='vertical' ? getStampTextZen(fugo,num,eda) : getStampText(fugo,num,eda);
+  el.className = 'preview-stamp-sample'+(dir==='vertical'?' vertical':'');
 }
-
-['fugo','start-num','eda-num','stamp-direction'].forEach(id => {
-  document.getElementById(id).addEventListener('change', () => { updatePreview(); renderFileList(); });
-  document.getElementById(id).addEventListener('input', () => { updatePreview(); renderFileList(); });
+['fugo','start-num','eda-num','stamp-direction'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('change',()=>{ updatePreview(); renderFileList(); });
+  el.addEventListener('input',()=>{ updatePreview(); renderFileList(); });
 });
 updatePreview();
 
 // ============================================================
-// ファイルリスト描画（ドラッグ＆ドロップ並び替え対応）
+// ファイルリスト描画（D&D並び替え）
 // ============================================================
-function renderFileList() {
+function renderFileList(){
   const container = document.getElementById('file-list');
   container.innerHTML = '';
   const fugo = document.getElementById('fugo').value;
-  const startNum = parseInt(document.getElementById('start-num').value) || 1;
-  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
+  const startNum = parseInt(document.getElementById('start-num').value)||1;
+  const eda = parseInt(document.getElementById('eda-num').value)||0;
 
-  files.forEach((item, i) => {
-    const stampLabel = getStampText(fugo, startNum + i, edaNum);
+  files.forEach((item,i)=>{
+    const stampLabel = getStampText(fugo,startNum+i,eda);
     const div = document.createElement('div');
-    div.className = 'file-item' + (item.isDemo ? ' is-demo' : '');
+    div.className = 'file-item'+(item.isDemo?' is-demo':'');
     div.draggable = true;
     div.dataset.index = i;
     div.innerHTML =
-      `<span class="drag-handle" title="ドラッグして並び替え">☰</span>` +
-      `<span class="file-item-icon">${item.isDemo ? '📋' : '📄'}</span>` +
-      `<input class="file-item-title-input" type="text" value="${escHtml(item.title)}" placeholder="証拠の標目" data-index="${i}">` +
-      `<span class="file-item-stamp">${escHtml(stampLabel)}</span>` +
+      `<span class="drag-handle" title="ドラッグして並び替え">☰</span>`+
+      `<span class="file-item-icon">${item.isDemo?'📋':'📄'}</span>`+
+      `<input class="file-item-title-input" type="text" value="${escHtml(item.title)}" placeholder="証拠の標目" data-index="${i}">`+
+      `<span class="file-item-stamp">${escHtml(stampLabel)}</span>`+
       `<button class="file-item-remove" data-index="${i}" title="削除">✕</button>`;
     container.appendChild(div);
 
-    // ドラッグ並び替えイベント
-    div.addEventListener('dragstart', e => {
-      dragSrcIndex = i;
-      div.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    div.addEventListener('dragend', () => {
-      div.classList.remove('dragging');
-      container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
-    });
-    div.addEventListener('dragover', e => {
-      e.preventDefault();
-      container.querySelectorAll('.file-item').forEach(el => el.classList.remove('drag-over'));
-      div.classList.add('drag-over');
-    });
-    div.addEventListener('drop', e => {
-      e.preventDefault();
-      if (dragSrcIndex === null || dragSrcIndex === i) return;
-      const moved = files.splice(dragSrcIndex, 1)[0];
-      files.splice(i, 0, moved);
-      dragSrcIndex = null;
-      renderFileList();
-    });
+    div.addEventListener('dragstart',e=>{ dragSrcIndex=i; div.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+    div.addEventListener('dragend',()=>{ div.classList.remove('dragging'); container.querySelectorAll('.file-item').forEach(el=>el.classList.remove('drag-over')); });
+    div.addEventListener('dragover',e=>{ e.preventDefault(); container.querySelectorAll('.file-item').forEach(el=>el.classList.remove('drag-over')); div.classList.add('drag-over'); });
+    div.addEventListener('drop',e=>{ e.preventDefault(); if(dragSrcIndex===null||dragSrcIndex===i) return; const m=files.splice(dragSrcIndex,1)[0]; files.splice(i,0,m); dragSrcIndex=null; renderFileList(); });
   });
 
-  // タイトル編集・削除
-  container.querySelectorAll('.file-item-title-input').forEach(input => {
-    input.addEventListener('input', e => { files[parseInt(e.target.dataset.index)].title = e.target.value; });
+  container.querySelectorAll('.file-item-title-input').forEach(input=>{
+    input.addEventListener('input',e=>{ files[parseInt(e.target.dataset.index)].title=e.target.value; });
   });
-  container.querySelectorAll('.file-item-remove').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      files.splice(parseInt(e.target.dataset.index), 1);
-      renderFileList();
-    });
+  container.querySelectorAll('.file-item-remove').forEach(btn=>{
+    btn.addEventListener('click',e=>{ e.stopPropagation(); files.splice(parseInt(e.target.dataset.index),1); renderFileList(); });
   });
 
   const c = document.getElementById('file-count');
-  c.textContent = files.length > 0
-    ? `合計 ${files.length} 件（デモ：${files.filter(f=>f.isDemo).length}件 / 実PDF：${files.filter(f=>!f.isDemo).length}件）`
-    : '';
-  document.getElementById('run-btn').disabled = files.length === 0;
+  c.textContent = files.length>0
+    ? `合計 ${files.length} 件（デモ：${files.filter(f=>f.isDemo).length}件 / 実PDF：${files.filter(f=>!f.isDemo).length}件）`:'';
+  document.getElementById('run-btn').disabled = files.length===0;
 }
 
 // ============================================================
@@ -450,179 +478,280 @@ function renderFileList() {
 // ============================================================
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('file-input');
-dropzone.addEventListener('click', () => fileInput.click());
-dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
-dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-dropzone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropzone.classList.remove('dragover');
-  addFiles(e.dataTransfer.files);
-});
-fileInput.addEventListener('change', e => { addFiles(e.target.files); fileInput.value = ''; });
-
-function addFiles(fileList) {
-  Array.from(fileList).forEach(f => {
-    if (f.type === 'application/pdf') {
-      files.push({ file: f, title: f.name.replace(/\.pdf$/i, ''), isDemo: false });
-    }
-  });
+dropzone.addEventListener('click',()=>fileInput.click());
+dropzone.addEventListener('dragover',e=>{ e.preventDefault(); dropzone.classList.add('dragover'); });
+dropzone.addEventListener('dragleave',()=>dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop',e=>{ e.preventDefault(); dropzone.classList.remove('dragover'); addFiles(e.dataTransfer.files); });
+fileInput.addEventListener('change',e=>{ addFiles(e.target.files); fileInput.value=''; });
+function addFiles(list){
+  Array.from(list).forEach(f=>{ if(f.type==='application/pdf') files.push({file:f,title:f.name.replace(/\.pdf$/i,''),isDemo:false}); });
   renderFileList();
 }
 
 // ============================================================
-// PDF処理（バグ修正：逐次処理で確実にダウンロード）
+// プレビューフロー開始
 // ============================================================
-document.getElementById('run-btn').addEventListener('click', async () => {
+function startPreviewFlow(){
   const fugo = document.getElementById('fugo').value;
-  const startNum = parseInt(document.getElementById('start-num').value) || 1;
-  const edaNum = parseInt(document.getElementById('eda-num').value) || 0;
+  const startNum = parseInt(document.getElementById('start-num').value)||1;
+  const eda = parseInt(document.getElementById('eda-num').value)||0;
+  const dir = document.getElementById('stamp-direction').value;
   const format = document.getElementById('filename-format').value;
-  const direction = document.getElementById('stamp-direction').value;
 
+  previewQueue = files.map((item,i)=>({
+    item, fugo, num: startNum+i, eda, dir, format,
+    stampText: dir==='vertical' ? getStampTextZen(fugo,startNum+i,eda) : getStampText(fugo,startNum+i,eda),
+    stampTextPlain: getStampText(fugo,startNum+i,eda),
+  }));
+  stampPositions = [];
+  previewIndex = 0;
+  showPreview(previewIndex);
+}
+
+// ============================================================
+// 1枚プレビュー表示
+// ============================================================
+async function showPreview(idx){
+  const entry = previewQueue[idx];
+  const overlay = document.getElementById('preview-modal');
+  overlay.classList.add('open');
+
+  document.getElementById('preview-modal-title').textContent =
+    `📄 (${idx+1}/${previewQueue.length}) ${entry.item.title}`;
+  document.getElementById('preview-file-info').textContent =
+    `${idx+1} / ${previewQueue.length} 件`;
+
+  const isLast = idx === previewQueue.length-1;
+  const confirmBtn = document.getElementById('preview-confirm-btn');
+  confirmBtn.textContent = isLast ? '✅ 確定してZIPダウンロード' : '✅ この位置で確定 → 次へ';
+  confirmBtn.className = 'preview-nav-btn '+(isLast?'finish':'confirm');
+
+  const canvas = document.getElementById('preview-canvas');
+  const wrap = document.getElementById('preview-canvas-wrap');
+  const stampDrag = document.getElementById('stamp-drag');
+
+  // スタンプテキスト設定
+  stampDrag.textContent = entry.stampText;
+  stampDrag.className = entry.dir==='vertical' ? 'vertical' : '';
+
+  // PDF.jsでレンダリング
+  try {
+    let pdfData;
+    if(entry.item.isDemo || !entry.item.file){
+      // デモ：白紙A4のプレビュー
+      canvas.width = 480; canvas.height = 679;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle='#ddd'; ctx.strokeRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle='#bbb'; ctx.font='14px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('DEMO: '+entry.item.title, canvas.width/2, canvas.height/2);
+      ctx.textAlign='left';
+      previewScale = canvas.width/595;
+    } else {
+      const ab = await entry.item.file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data: ab}).promise;
+      const page = await pdf.getPage(1);
+      const viewport = page.getViewport({scale:1});
+      const maxW = Math.min(680, window.innerWidth-60);
+      previewScale = maxW / viewport.width;
+      const vp = page.getViewport({scale: previewScale});
+      canvas.width = vp.width; canvas.height = vp.height;
+      await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+    }
+
+    wrap.style.width = canvas.width+'px';
+    wrap.style.height = canvas.height+'px';
+
+    // スタンプ初期位置（右上）
+    const stampW = stampDrag.offsetWidth || 40;
+    const stampH = stampDrag.offsetHeight || 80;
+    let initX = canvas.width - stampW - 12;
+    let initY = 10;
+    stampDrag.style.left = initX+'px';
+    stampDrag.style.top = initY+'px';
+
+    // ドラッグ移動
+    makeDraggable(stampDrag, wrap, canvas);
+
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+// ============================================================
+// スタンプDOMをドラッグ可能にする
+// ============================================================
+function makeDraggable(el, container, canvas){
+  let startX, startY, startLeft, startTop;
+  el.onmousedown = function(e){
+    e.preventDefault();
+    startX = e.clientX; startY = e.clientY;
+    startLeft = parseInt(el.style.left)||0;
+    startTop = parseInt(el.style.top)||0;
+    document.onmousemove = function(e){
+      let newLeft = startLeft + e.clientX - startX;
+      let newTop  = startTop  + e.clientY - startY;
+      newLeft = Math.max(0, Math.min(newLeft, canvas.width  - el.offsetWidth));
+      newTop  = Math.max(0, Math.min(newTop,  canvas.height - el.offsetHeight));
+      el.style.left = newLeft+'px';
+      el.style.top  = newTop+'px';
+    };
+    document.onmouseup = function(){ document.onmousemove=null; document.onmouseup=null; };
+  };
+  // タッチ対応
+  el.ontouchstart = function(e){
+    const t = e.touches[0];
+    startX=t.clientX; startY=t.clientY;
+    startLeft=parseInt(el.style.left)||0; startTop=parseInt(el.style.top)||0;
+    document.ontouchmove = function(e){
+      e.preventDefault();
+      const t=e.touches[0];
+      let newLeft=startLeft+t.clientX-startX;
+      let newTop=startTop+t.clientY-startY;
+      newLeft=Math.max(0,Math.min(newLeft,canvas.width-el.offsetWidth));
+      newTop=Math.max(0,Math.min(newTop,canvas.height-el.offsetHeight));
+      el.style.left=newLeft+'px'; el.style.top=newTop+'px';
+    };
+    document.ontouchend=function(){ document.ontouchmove=null; document.ontouchend=null; };
+  };
+}
+
+// ============================================================
+// 位置確定 → 次へ or 完了
+// ============================================================
+function confirmStampPosition(){
+  const stampDrag = document.getElementById('stamp-drag');
+  const canvas = document.getElementById('preview-canvas');
+  const x = parseInt(stampDrag.style.left)||0;
+  const y = parseInt(stampDrag.style.top)||0;
+  // PDF座標に変換（比率で保持）
+  stampPositions[previewIndex] = {
+    xRatio: x / canvas.width,
+    yRatio: y / canvas.height,
+    wRatio: stampDrag.offsetWidth / canvas.width,
+    hRatio: stampDrag.offsetHeight / canvas.height,
+  };
+  previewIndex++;
+  if(previewIndex < previewQueue.length){
+    showPreview(previewIndex);
+  } else {
+    // 全ファイル確定 → PDF処理 → ZIPダウンロード
+    document.getElementById('preview-modal').classList.remove('open');
+    processPDFsAndZip();
+  }
+}
+
+function cancelPreview(){
+  document.getElementById('preview-modal').classList.remove('open');
+}
+
+// ============================================================
+// PDF処理 → ZIP一括ダウンロード
+// ============================================================
+async function processPDFsAndZip(){
   const progressWrap = document.getElementById('progress-wrap');
-  const progressBar = document.getElementById('progress-bar');
+  const progressBar  = document.getElementById('progress-bar');
   const progressText = document.getElementById('progress-text');
   const msgEl = document.getElementById('msg');
   const runBtn = document.getElementById('run-btn');
 
-  progressWrap.style.display = 'block';
-  msgEl.className = 'msg';
-  msgEl.textContent = '';
-  runBtn.disabled = true;
-  progressBar.style.width = '0%';
-
-  let successCount = 0;
+  progressWrap.style.display='block';
+  msgEl.className='msg'; msgEl.textContent='';
+  runBtn.disabled=true;
+  progressBar.style.width='0%';
 
   try {
-    // フォントを最初に1回だけ読み込む
     const fontBytes = b64ToUint8Array(STAMP_FONT_B64);
+    const zip = new JSZip();
+    let successCount = 0;
 
-    for (let i = 0; i < files.length; i++) {
-      const item = files[i];
-      const num = startNum + i;
-      const stampText = direction === 'vertical'
-        ? getStampTextZen(fugo, num, edaNum)
-        : getStampText(fugo, num, edaNum);
-
-      progressText.textContent = `処理中... (${i+1}/${files.length})　${getStampText(fugo, num, edaNum)}　${item.title}`;
-      progressBar.style.width = ((i / files.length) * 100) + '%';
+    for(let i=0; i<previewQueue.length; i++){
+      const entry = previewQueue[i];
+      const pos   = stampPositions[i];
+      progressText.textContent = `処理中... (${i+1}/${previewQueue.length})　${entry.stampTextPlain}　${entry.item.title}`;
+      progressBar.style.width = ((i/previewQueue.length)*100)+'%';
 
       let pdfDoc;
       try {
-        if (item.isDemo || !item.file) {
-          // デモ：空のA4 PDF生成
+        if(entry.item.isDemo || !entry.item.file){
           pdfDoc = await PDFLib.PDFDocument.create();
-          pdfDoc.addPage([595, 842]);
+          pdfDoc.addPage([595,842]);
         } else {
-          // 実PDF読み込み
-          const ab = await item.file.arrayBuffer();
-          pdfDoc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+          const ab = await entry.item.file.arrayBuffer();
+          pdfDoc = await PDFLib.PDFDocument.load(ab,{ignoreEncryption:true});
         }
-
-        // fontkitとフォント埋め込み
         pdfDoc.registerFontkit(fontkit);
         const font = await pdfDoc.embedFont(fontBytes);
-
-        // スタンプ描画
         const page = pdfDoc.getPages()[0];
-        drawStamp(page, font, stampText, direction);
+        const {width,height} = page.getSize();
 
-        // PDF保存
+        // スタンプ位置をPDF座標に変換
+        const px = pos ? pos.xRatio * width  : width - 60;
+        const py = pos ? (1 - pos.yRatio - pos.hRatio) * height : height - 12;
+
+        drawStamp(page, font, entry.stampText, entry.dir, px, py);
+
         const pdfBytes = await pdfDoc.save();
-
-        // ファイル名決定
-        let dlName = getFileName(fugo, num, edaNum, item.title, format);
-        if (!dlName) dlName = item.file ? item.file.name : item.title + '.pdf';
-
-        // ダウンロード（確実に逐次処理）
-        await downloadBlob(pdfBytes, dlName);
+        let dlName = getFileName(entry.fugo,entry.num,entry.eda,entry.item.title,entry.format);
+        if(!dlName) dlName = entry.item.file ? entry.item.file.name : entry.item.title+'.pdf';
+        zip.file(dlName, pdfBytes);
         successCount++;
-
-        // 次のファイルまで少し待機（ブラウザの連続DL制限を回避）
-        await sleep(600);
-
-      } catch (fileErr) {
-        console.error(`ファイル${i+1}でエラー:`, fileErr);
-        progressText.textContent = `⚠️ ${item.title} の処理中にエラーが発生しました。スキップします。`;
-        await sleep(800);
+      } catch(fileErr){
+        console.error(`ファイル${i+1}エラー:`,fileErr);
       }
     }
 
-    progressBar.style.width = '100%';
-    progressText.textContent = `✅ 完了！ ${successCount}件を処理しました`;
-    msgEl.className = 'msg success';
-    msgEl.textContent = `✅ ${successCount}件のPDFにスタンプを押印しました。ダウンロードフォルダをご確認ください。`;
+    progressBar.style.width='100%';
+    progressText.textContent=`✅ PDF処理完了 (${successCount}件) ZIPを作成中...`;
 
-  } catch (err) {
-    console.error(err);
-    msgEl.className = 'msg error';
-    msgEl.textContent = '⚠️ エラーが発生しました：' + err.message;
-  } finally {
-    runBtn.disabled = files.length === 0;
-  }
-});
-
-// 確実なダウンロード処理
-function downloadBlob(pdfBytes, fileName) {
-  return new Promise(resolve => {
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
+    // ZIP生成＆ダウンロード
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(zipBlob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      resolve();
-    }, 300);
-  });
+    a.href=url; a.download='証拠書類_スタンプ済み.zip';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+
+    msgEl.className='msg success';
+    msgEl.textContent=`✅ ${successCount}件のPDFをZIPにまとめてダウンロードしました。ダウンロードフォルダをご確認ください。`;
+
+  } catch(err){
+    console.error(err);
+    msgEl.className='msg error';
+    msgEl.textContent='⚠️ エラーが発生しました：'+err.message;
+  } finally {
+    runBtn.disabled = files.length===0;
+    progressText.textContent='';
+  }
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
 // ============================================================
-// スタンプ描画（サイズ1.5倍）
+// スタンプ描画（位置指定対応・サイズ1.5倍）
 // ============================================================
-function drawStamp(page, font, stampText, direction) {
-  const { width, height } = page.getSize();
-  const red = PDFLib.rgb(0.76, 0.06, 0.06);
-  const bgRed = PDFLib.rgb(1, 0.96, 0.96);
-  // サイズを1.5倍に拡大
+function drawStamp(page, font, stampText, direction, px, py){
+  const red   = PDFLib.rgb(0.76,0.06,0.06);
+  const bgRed = PDFLib.rgb(1,0.96,0.96);
   const pad = 7;
 
-  if (direction === 'horizontal') {
-    const fontSize = 15; // 旧10 → 1.5倍
-    const textWidth = font.widthOfTextAtSize(stampText, fontSize);
-    const boxW = textWidth + pad * 2;
-    const boxH = fontSize + pad * 2;
-    const x = width - boxW - 10;
-    const y = height - 12;
-    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 2.5, color: bgRed, opacity: 0.97 });
-    page.drawText(stampText, { x: x + pad, y: y - boxH + pad + 2, size: fontSize, font, color: red });
+  if(direction==='horizontal'){
+    const fontSize=15;
+    const textWidth=font.widthOfTextAtSize(stampText,fontSize);
+    const boxW=textWidth+pad*2, boxH=fontSize+pad*2;
+    page.drawRectangle({x:px,y:py-boxH,width:boxW,height:boxH,borderColor:red,borderWidth:2.5,color:bgRed,opacity:0.97});
+    page.drawText(stampText,{x:px+pad,y:py-boxH+pad+2,size:fontSize,font,color:red});
   } else {
-    const fontSize = 16; // 旧11 → 1.5倍
-    const lineH = fontSize + 4;
-    const chars = Array.from(stampText);
-    const boxW = fontSize + pad * 2;
-    const boxH = lineH * chars.length + pad * 2;
-    const x = width - boxW - 10;
-    const y = height - 12;
-    page.drawRectangle({ x, y: y - boxH, width: boxW, height: boxH, borderColor: red, borderWidth: 2.5, color: bgRed, opacity: 0.97 });
-    chars.forEach((ch, i) => {
-      page.drawText(ch, {
-        x: x + pad,
-        y: y - pad - lineH * (i + 1) + 4,
-        size: fontSize, font, color: red,
-      });
+    const fontSize=16, lineH=fontSize+4;
+    const chars=Array.from(stampText);
+    const boxW=fontSize+pad*2, boxH=lineH*chars.length+pad*2;
+    page.drawRectangle({x:px,y:py-boxH,width:boxW,height:boxH,borderColor:red,borderWidth:2.5,color:bgRed,opacity:0.97});
+    chars.forEach((ch,i)=>{
+      page.drawText(ch,{x:px+pad,y:py-pad-lineH*(i+1)+4,size:fontSize,font,color:red});
     });
   }
 }
 
 // ============================================================
-function escHtml(str) {
+function escHtml(str){
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
